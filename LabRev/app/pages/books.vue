@@ -3,7 +3,7 @@ import type { TableColumn } from '@nuxt/ui'
 import { upperFirst } from 'scule'
 import { getPaginationRowModel } from '@tanstack/table-core'
 import type { Row } from '@tanstack/table-core'
-import type { User } from '~/types'
+import type { Book } from '~/types'
 
 const UAvatar = resolveComponent('UAvatar')
 const UButton = resolveComponent('UButton')
@@ -21,11 +21,11 @@ const columnFilters = ref([{
 const columnVisibility = ref()
 const rowSelection = ref({ 1: true })
 
-const { data, status } = await useFetch<User[]>('/api/books', {
+const { data, status } = await useFetch<Book[]>('/api/books.ts', {
   lazy: true
 })
 
-function getRowItems(row: Row<User>) {
+function getRowItems(row: Row<Book>) {
   return [
     {
       type: 'label',
@@ -70,7 +70,7 @@ function getRowItems(row: Row<User>) {
   ]
 }
 
-const columns: TableColumn<User>[] = [
+const columns: TableColumn<Book>[] = [
   {
     id: 'select',
     header: ({ table }) =>
@@ -103,8 +103,8 @@ const columns: TableColumn<User>[] = [
           size: 'lg'
         }),
         h('div', undefined, [
-          h('p', { class: 'font-medium text-highlighted' }, row.original.name),
-          h('p', { class: '' }, `@${row.original.name}`)
+          h('p', { class: 'font-medium text-highlighted' }, row.original.title),
+          h('p', { class: '' }, `@${row.original.title}`)
         ])
       ])
     }
@@ -139,9 +139,9 @@ const columns: TableColumn<User>[] = [
     filterFn: 'equals',
     cell: ({ row }) => {
       const color = {
-        subscribed: 'success' as const,
-        unsubscribed: 'error' as const,
-        bounced: 'warning' as const
+        exist: 'success' as const,
+        lend: 'error' as const,
+        disposal: 'warning' as const
       }[row.original.status]
 
       return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () =>

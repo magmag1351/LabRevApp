@@ -16,7 +16,9 @@ export interface Book {
   id: number
   title: string
   author: string
+  avatar?: AvatarProps
   status: BookStatus
+  location: string
 }
 
 export interface Mail {
