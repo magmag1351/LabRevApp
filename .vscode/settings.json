@@ -1,0 +1,13 @@
+{
+  "editor.renderWhitespace": "all",
+  "[typescript]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+  },
+  "[vue]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+  },
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single"
+}
