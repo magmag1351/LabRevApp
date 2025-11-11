@@ -21,7 +21,7 @@ const columnFilters = ref([{
 const columnVisibility = ref()
 const rowSelection = ref({ 1: true })
 
-const { data, status } = await useFetch<Book[]>('/api/books.ts', {
+const { data, status } = await useFetch<Book[]>('../server//api/books.ts', {
   lazy: true
 })
 
