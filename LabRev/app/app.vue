@@ -13,12 +13,12 @@ useHead({
     { rel: 'icon', href: '/favicon.ico' }
   ],
   htmlAttrs: {
-    lang: 'jp'
+    lang: 'en'
   }
 })
 
-const title = 'LabRev'
-const description = 'Next Lab level'
+const title = 'Nuxt Dashboard Template'
+const description = 'A professional dashboard template built with Nuxt UI, featuring multiple pages, data visualization, and comprehensive management capabilities for creating powerful admin interfaces.'
 
 useSeoMeta({
   title,

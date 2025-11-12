@@ -1,7 +1,7 @@
 import type { AvatarProps } from '@nuxt/ui'
 
 export type UserStatus = 'online' | 'offline' | 'afk'
-export type BookStatus = 'exist' | 'lend' | 'disposal'
+export type SaleStatus = 'paid' | 'failed' | 'refunded'
 
 export interface User {
   id: number
@@ -9,15 +9,6 @@ export interface User {
   email: string
   avatar?: AvatarProps
   status: UserStatus
-  grade: string
-}
-
-export interface Book {
-  id: number
-  title: string
-  author: string
-  avatar?: AvatarProps
-  status: BookStatus
   location: string
 }
 

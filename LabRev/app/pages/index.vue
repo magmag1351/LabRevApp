@@ -21,7 +21,7 @@ const columnFilters = ref([{
 const columnVisibility = ref()
 const rowSelection = ref({ 1: true })
 
-const { data, status } = await useFetch<User[]>('../server/api/students.ts', {
+const { data, status } = await useFetch<User[]>('/api/customers', {
   lazy: true
 })
 
@@ -32,13 +32,13 @@ function getRowItems(row: Row<User>) {
       label: 'Actions'
     },
     {
-      label: 'Copy student ID',
+      label: 'Copy customer ID',
       icon: 'i-lucide-copy',
       onSelect() {
         navigator.clipboard.writeText(row.original.id.toString())
         toast.add({
           title: 'Copied to clipboard',
-          description: 'Student ID copied to clipboard'
+          description: 'Customer ID copied to clipboard'
         })
       }
     },
@@ -46,18 +46,18 @@ function getRowItems(row: Row<User>) {
       type: 'separator'
     },
     {
-      label: 'View student details',
+      label: 'View customer details',
       icon: 'i-lucide-list'
     },
     {
-      label: 'View student payments',
+      label: 'View customer payments',
       icon: 'i-lucide-wallet'
     },
     {
       type: 'separator'
     },
     {
-      label: 'Delete student',
+      label: 'Delete customer',
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect() {
@@ -129,9 +129,9 @@ const columns: TableColumn<User>[] = [
     }
   },
   {
-    accessorKey: 'grade',
-    header: 'Grade',
-    cell: ({ row }) => row.original.grade
+    accessorKey: 'location',
+    header: 'Location',
+    cell: ({ row }) => row.original.location
   },
   {
     accessorKey: 'status',
@@ -198,9 +198,9 @@ const pagination = ref({
 </script>
 
 <template>
-  <UDashboardPanel id="students">
+  <UDashboardPanel id="customers">
     <template #header>
-      <UDashboardNavbar title="Students">
+      <UDashboardNavbar title="Customers">
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
