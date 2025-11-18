@@ -1,60 +1,29 @@
 import type { AvatarProps } from '@nuxt/ui'
 
-export type UserStatus = 'online' | 'offline' | 'afk'
-export type SaleStatus = 'paid' | 'failed' | 'refunded'
+export type Grade = '管理者' | 'M2' | 'M1' | 'B4' | 'B3'
+export type LabMemberStatus = '在室' | '帰宅' | '離席'
 
-export interface User {
+export interface LabMember {
   id: number
   name: string
   email: string
-  avatar?: AvatarProps
-  status: UserStatus
-  location: string
+  grade: Grade
+  status: LabMemberStatus
 }
 
-export interface Mail {
+export type BookStatus = '室内' | '貸出' | '不明'
+
+export interface Book {
   id: number
-  unread?: boolean
-  from: User
-  subject: string
-  body: string
-  date: string
+  title: string
+  category: string
+  status: BookStatus
 }
 
-export interface Member {
+// This was the old Member type, renaming to avoid conflict
+export interface SettingsMember {
   name: string
   username: string
   role: 'member' | 'owner'
   avatar: AvatarProps
-}
-
-export interface Stat {
-  title: string
-  icon: string
-  value: number | string
-  variation: number
-  formatter?: (value: number) => string
-}
-
-export interface Sale {
-  id: string
-  date: string
-  status: SaleStatus
-  email: string
-  amount: number
-}
-
-export interface Notification {
-  id: number
-  unread?: boolean
-  sender: User
-  body: string
-  date: string
-}
-
-export type Period = 'daily' | 'weekly' | 'monthly'
-
-export interface Range {
-  start: Date
-  end: Date
 }
