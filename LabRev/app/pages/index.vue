@@ -3,9 +3,9 @@ import type { TableColumn } from '@nuxt/ui'
 import { upperFirst } from 'scule'
 import { getPaginationRowModel } from '@tanstack/table-core'
 import type { Row } from '@tanstack/table-core'
-import type { User } from '~/types'
+import type { LabMember } from '~/types'
 
-const UAvatar = resolveComponent('UAvatar')
+// const UAvatar = resolveComponent('UAvatar')
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -21,11 +21,11 @@ const columnFilters = ref([{
 const columnVisibility = ref()
 const rowSelection = ref({ 1: true })
 
-const { data, status } = await useFetch<User[]>('/api/customers', {
+const { data, status, refresh } = await useFetch<LabMember[]>('/api/members', {
   lazy: true
 })
 
-function getRowItems(row: Row<User>) {
+function getRowItems(row: Row<LabMember>) {
   return [
     {
       type: 'label',
@@ -70,7 +70,7 @@ function getRowItems(row: Row<User>) {
   ]
 }
 
-const columns: TableColumn<User>[] = [
+const columns: TableColumn<LabMember>[] = [
   {
     id: 'select',
     header: ({ table }) =>
@@ -97,15 +97,9 @@ const columns: TableColumn<User>[] = [
     accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => {
-      return h('div', { class: 'flex items-center gap-3' }, [
-        h(UAvatar, {
-          ...row.original.avatar,
-          size: 'lg'
-        }),
-        h('div', undefined, [
-          h('p', { class: 'font-medium text-highlighted' }, row.original.name),
-          h('p', { class: '' }, `@${row.original.name}`)
-        ])
+      return h('div', undefined, [
+        h('p', { class: 'font-medium text-highlighted' }, row.original.name),
+        h('p', { class: '' }, `@${row.original.name}`) // もし 'username' がないなら、@${row.original.name} も削除
       ])
     }
   },
@@ -129,9 +123,9 @@ const columns: TableColumn<User>[] = [
     }
   },
   {
-    accessorKey: 'location',
-    header: 'Location',
-    cell: ({ row }) => row.original.location
+    accessorKey: 'grade',
+    header: 'Grade',
+    cell: ({ row }) => row.original.grade
   },
   {
     accessorKey: 'status',
@@ -139,9 +133,9 @@ const columns: TableColumn<User>[] = [
     filterFn: 'equals',
     cell: ({ row }) => {
       const color = {
-        online: 'success' as const,
-        offline: 'error' as const,
-        afk: 'warning' as const
+        online: 'success',
+        offline: 'error',
+        afk: 'warning'
       }[row.original.status]
 
       return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () =>
@@ -200,7 +194,7 @@ const pagination = ref({
 <template>
   <UDashboardPanel id="customers">
     <template #header>
-      <UDashboardNavbar title="Customers">
+      <UDashboardNavbar title="Lab Members">
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
@@ -242,9 +236,9 @@ const pagination = ref({
             v-model="statusFilter"
             :items="[
               { label: 'All', value: 'all' },
-              { label: 'Subscribed', value: 'subscribed' },
-              { label: 'Unsubscribed', value: 'unsubscribed' },
-              { label: 'Bounced', value: 'bounced' }
+              { label: 'Online', value: 'online' },
+              { label: 'Offline', value: 'offline' },
+              { label: 'AFK', value: 'afk' }
             ]"
             :ui="{ trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200' }"
             placeholder="Filter status"

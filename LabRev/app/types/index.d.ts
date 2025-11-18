@@ -1,7 +1,7 @@
 import type { AvatarProps } from '@nuxt/ui'
 
-export type Grade = '管理者' | 'M2' | 'M1' | 'B4' | 'B3'
-export type LabMemberStatus = '在室' | '帰宅' | '離席'
+export type Grade = 'Admin' | 'M2' | 'M1' | 'B4' | 'B3'
+export type LabMemberStatus = 'online' | 'offline' | 'afk'
 
 export interface LabMember {
   id: number

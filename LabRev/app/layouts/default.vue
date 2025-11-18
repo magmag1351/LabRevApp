@@ -13,7 +13,7 @@ const links = [[{
 }, {
   label: 'Book',
   icon: 'i-lucide-book',
-  to: '/customers',
+  to: '/books',
   onSelect: () => {
     open.value = false
   }
