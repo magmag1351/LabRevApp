@@ -19,7 +19,7 @@ const columnFilters = ref([{
   value: ''
 }])
 const columnVisibility = ref()
-const rowSelection = ref({ 1: true })
+// const rowSelection = ref({ 1: true })
 
 const { data, status, refresh } = await useFetch<LabMember[]>('/api/members', {
   lazy: true
@@ -32,13 +32,13 @@ function getRowItems(row: Row<LabMember>) {
       label: 'Actions'
     },
     {
-      label: 'Copy customer ID',
+      label: 'Copy Member Email',
       icon: 'i-lucide-copy',
       onSelect() {
-        navigator.clipboard.writeText(row.original.id.toString())
+        navigator.clipboard.writeText(row.original.email.toString())
         toast.add({
           title: 'Copied to clipboard',
-          description: 'Customer ID copied to clipboard'
+          description: 'Member email copied to clipboard'
         })
       }
     },
@@ -46,24 +46,20 @@ function getRowItems(row: Row<LabMember>) {
       type: 'separator'
     },
     {
-      label: 'View customer details',
+      label: 'View member details',
       icon: 'i-lucide-list'
-    },
-    {
-      label: 'View customer payments',
-      icon: 'i-lucide-wallet'
     },
     {
       type: 'separator'
     },
     {
-      label: 'Delete customer',
+      label: 'Delete member',
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect() {
         toast.add({
-          title: 'Customer deleted',
-          description: 'The customer has been deleted.'
+          title: 'Member deleted',
+          description: 'The member has been deleted.'
         })
       }
     }
@@ -71,7 +67,7 @@ function getRowItems(row: Row<LabMember>) {
 }
 
 const columns: TableColumn<LabMember>[] = [
-  {
+  /*{
     id: 'select',
     header: ({ table }) =>
       h(UCheckbox, {
@@ -88,10 +84,10 @@ const columns: TableColumn<LabMember>[] = [
         'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
         'ariaLabel': 'Select row'
       })
-  },
+  },*/
   {
-    accessorKey: 'id',
-    header: 'ID'
+    accessorKey: 'no',
+    header: 'No'
   },
   {
     accessorKey: 'name',
@@ -99,7 +95,7 @@ const columns: TableColumn<LabMember>[] = [
     cell: ({ row }) => {
       return h('div', undefined, [
         h('p', { class: 'font-medium text-highlighted' }, row.original.name),
-        h('p', { class: '' }, `@${row.original.name}`) // もし 'username' がないなら、@${row.original.name} も削除
+        // h('p', { class: '' }, `@${row.original.name}`) // もし 'username' がないなら、@${row.original.name} も削除
       ])
     }
   },

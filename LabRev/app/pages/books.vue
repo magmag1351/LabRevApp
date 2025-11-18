@@ -15,11 +15,11 @@ const toast = useToast()
 const table = useTemplateRef('table')
 
 const columnFilters = ref([{
-  id: 'email',
+  id: 'title',
   value: ''
 }])
 const columnVisibility = ref()
-const rowSelection = ref({ 1: true })
+// const rowSelection = ref({ 1: true })
 
 const { data, status } = await useFetch<Book[]>('/api/books', {
   lazy: true
@@ -71,7 +71,7 @@ function getRowItems(row: Row<User>) {
 }
 
 const columns: TableColumn<Book>[] = [
-  {
+  /*{
     id: 'select',
     header: ({ table }) =>
       h(UCheckbox, {
@@ -88,10 +88,10 @@ const columns: TableColumn<Book>[] = [
         'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
         'ariaLabel': 'Select row'
       })
-  },
+  },*/
   {
-    accessorKey: 'id',
-    header: 'ID'
+    accessorKey: 'no',
+    header: 'No'
   },
   {
     accessorKey: 'title',
@@ -99,7 +99,7 @@ const columns: TableColumn<Book>[] = [
     cell: ({ row }) => {
       return h('div', undefined, [
         h('p', { class: 'font-medium text-highlighted' }, row.original.title),
-        h('p', { class: '' }, `@${row.original.title}`) // もし 'username' がないなら、@${row.original.name} も削除
+        //h('p', { class: '' }, `@${row.original.title}`) // もし 'username' がないなら、@${row.original.name} も削除
       ])
     }
   },
@@ -137,6 +137,14 @@ const columns: TableColumn<Book>[] = [
         row.original.status
       )
     }
+  },
+  {
+    accessorKey: 'renter',
+    header: 'Renter'
+  },
+  {
+    accessorKey: 'rentDate',
+    header: 'Rent Date'
   },
   {
     id: 'actions',
@@ -187,9 +195,9 @@ const pagination = ref({
 </script>
 
 <template>
-  <UDashboardPanel id="customers">
+  <UDashboardPanel id="books">
     <template #header>
-      <UDashboardNavbar title="Customers">
+      <UDashboardNavbar title="Books">
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
@@ -203,11 +211,11 @@ const pagination = ref({
     <template #body>
       <div class="flex flex-wrap items-center justify-between gap-1.5">
         <UInput
-          :model-value="(table?.tableApi?.getColumn('email')?.getFilterValue() as string)"
+          :model-value="(table?.tableApi?.getColumn('title')?.getFilterValue() as string)"
           class="max-w-sm"
           icon="i-lucide-search"
-          placeholder="Filter emails..."
-          @update:model-value="table?.tableApi?.getColumn('email')?.setFilterValue($event)"
+          placeholder="Filter title..."
+          @update:model-value="table?.tableApi?.getColumn('title')?.setFilterValue($event)"
         />
 
         <div class="flex flex-wrap items-center gap-1.5">

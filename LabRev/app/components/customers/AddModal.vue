@@ -23,8 +23,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UModal v-model:open="open" title="New customer" description="Add a new customer to the database">
-    <UButton label="New customer" icon="i-lucide-plus" />
+  <UModal v-model:open="open" title="New member" description="Add a new member to the database">
+    <UButton label="New member" icon="i-lucide-plus" />
 
     <template #body>
       <UForm
@@ -36,8 +36,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UFormField label="Name" placeholder="John Doe" name="name">
           <UInput v-model="state.name" class="w-full" />
         </UFormField>
+        <UFormField label="ID" placeholder="123456" name="id">
+          <UInput v-model="state.id" class="w-full" />
+        </UFormField>
         <UFormField label="Email" placeholder="john.doe@example.com" name="email">
           <UInput v-model="state.email" class="w-full" />
+        </UFormField>
+        <UFormField label="Grade" placeholder="B4" name="grade">
+          <UInput v-model="state.grade" class="w-full" />
         </UFormField>
         <div class="flex justify-end gap-2">
           <UButton

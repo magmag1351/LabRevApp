@@ -27,5 +27,14 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+
+  nitro: {
+    experimental: {
+      websocket: true
+    }
+  },
+  hub: {
+    workers: true
   }
 })
