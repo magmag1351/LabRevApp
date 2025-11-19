@@ -22,6 +22,7 @@ export const getMembersFromStore = async (): Promise<LabMember[]> => {
     // 初期データ (前回修正した members.ts の内容など)
     const initialMembers: LabMember[] = [
       {
+        no: 1,
         id: 1,
         name: 'Kenta Uesugi',
         email: 'uesugi@example.com',
@@ -29,6 +30,7 @@ export const getMembersFromStore = async (): Promise<LabMember[]> => {
         status: 'online',
       },
       {
+        no: 2,
         id: 2,
         name: 'Taro Yamada',
         email: 'yamada@example.com',
