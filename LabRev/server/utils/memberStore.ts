@@ -19,16 +19,18 @@ export const getMembersFromStore = async (): Promise<LabMember[]> => {
   let members = await storage.getItem<LabMember[]>('members')
 
   if (!members) {
-    // 初期データ (前回修正した members.ts の内容など)
+    // 初期データ
     const initialMembers: LabMember[] = [
       {
+        no: 1,
         id: 1,
         name: 'Kenta Uesugi',
         email: 'uesugi@example.com',
-        grade: 'M2',
+        grade: 'Admin',
         status: 'online',
       },
       {
+        no:2,
         id: 2,
         name: 'Taro Yamada',
         email: 'yamada@example.com',
