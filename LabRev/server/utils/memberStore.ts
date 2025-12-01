@@ -30,11 +30,7 @@ export const getMembersFromStore = async (): Promise<LabMember[]> => {
         status: 'online',
       },
       {
-<<<<<<< HEAD
-        no:2,
-=======
         no: 2,
->>>>>>> fc19b09fd85ce830e3815ddf3f550e8f02370bec
         id: 2,
         name: 'Taro Yamada',
         email: 'yamada@example.com',
