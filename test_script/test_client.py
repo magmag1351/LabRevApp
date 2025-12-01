@@ -3,10 +3,10 @@ import json
 
 # 1. 呼び出すNuxt APIのURL
 # (Nuxtが http://localhost:3000 で動いていると仮定)
-nuxt_api_url = "http://localhost:3000/api/members/status"
+nuxt_api_url = "http://192.168.11.18:3000/api/members/status"
 
 # 2. 送信するデータ (更新したいメンバーのID)
-member_id_to_toggle = 1  # <- ここをテストしたいIDに変更
+member_id_to_toggle = 584196026551  # <- ここをテストしたいIDに変更
 data_to_send = {
     "id": member_id_to_toggle
 }
