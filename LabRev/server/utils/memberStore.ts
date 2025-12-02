@@ -64,3 +64,27 @@ export const updateMemberStatusInStore = async (id: number): Promise<LabMember |
 
   return member
 }
+
+/**
+ * 新しいメンバーを追加します。
+ */
+export const addMemberToStore = async (memberData: Omit<LabMember, 'no' | 'status'>): Promise<LabMember> => {
+  const members = await getMembersFromStore()
+
+  // 新しいNoを生成 (現在の最大No + 1)
+  const maxNo = members.reduce((max, m) => Math.max(max, m.no), 0)
+  const newNo = maxNo + 1
+
+  const newMember: LabMember = {
+    ...memberData,
+    no: newNo,
+    status: 'offline' // デフォルトは offline
+  }
+
+  members.push(newMember)
+
+  const storage = useStorage('data')
+  await storage.setItem('members', members)
+
+  return newMember
+}

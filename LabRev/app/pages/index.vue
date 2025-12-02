@@ -196,7 +196,7 @@ const pagination = ref({
         </template>
 
         <template #right>
-          <CustomersAddModal />
+          <CustomersAddModal @success="refresh()" />
         </template>
       </UDashboardNavbar>
     </template>
