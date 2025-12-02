@@ -32,37 +32,26 @@ function getRowItems(row: Row<User>) {
       label: 'Actions'
     },
     {
-      label: 'Copy customer ID',
-      icon: 'i-lucide-copy',
-      onSelect() {
-        navigator.clipboard.writeText(row.original.id.toString())
-        toast.add({
-          title: 'Copied to clipboard',
-          description: 'Customer ID copied to clipboard'
-        })
-      }
-    },
-    {
       type: 'separator'
     },
     {
-      label: 'View customer details',
+      label: 'View book details',
       icon: 'i-lucide-list'
     },
     {
-      label: 'View customer payments',
-      icon: 'i-lucide-wallet'
+      label: 'Edit book details',
+      icon: 'i-lucide-edit'
     },
     {
       type: 'separator'
     },
     {
-      label: 'Delete customer',
+      label: 'Delete book',
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect() {
         toast.add({
-          title: 'Customer deleted',
+          title: 'Book deleted',
           description: 'The customer has been deleted.'
         })
       }

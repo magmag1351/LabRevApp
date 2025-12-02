@@ -10,7 +10,7 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
-    { rel: 'icon', href: '/hatsukadeLab.ico' }
+    { rel: 'icon', href: '/hatsukadeLab_transparent.ico' }
   ],
   htmlAttrs: {
     lang: 'en'
