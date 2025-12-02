@@ -25,6 +25,9 @@ const { data, status, refresh } = await useFetch<LabMember[]>('/api/members', {
   lazy: true
 })
 
+const isEditModalOpen = ref(false)
+const selectedMember = ref<LabMember | undefined>(undefined)
+
 function getRowItems(row: Row<LabMember>) {
   return [
     {
@@ -48,6 +51,14 @@ function getRowItems(row: Row<LabMember>) {
     {
       label: 'View member details',
       icon: 'i-lucide-list'
+    },
+    {
+      label: 'Edit member details',
+      icon: 'i-lucide-edit',
+      onSelect() {
+        selectedMember.value = row.original
+        isEditModalOpen.value = true
+      }
     },
     {
       type: 'separator'
@@ -210,6 +221,7 @@ const pagination = ref({
 
         <template #right>
           <CustomersAddModal @success="refresh()" />
+          <CustomersEditModal v-model:open="isEditModalOpen" :member="selectedMember" @success="refresh()" />
         </template>
       </UDashboardNavbar>
     </template>

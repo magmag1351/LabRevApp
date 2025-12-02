@@ -107,3 +107,24 @@ export const deleteMemberFromStore = async (id: number): Promise<boolean> => {
 
   return true
 }
+
+/**
+ * IDを指定してメンバー情報を更新します。
+ */
+export const updateMemberInStore = async (id: number, data: Partial<Omit<LabMember, 'id' | 'no'>>): Promise<LabMember | null> => {
+  const members = await getMembersFromStore()
+  const member = members.find(m => m.id === id)
+
+  if (!member) {
+    return null // 該当メンバーなし
+  }
+
+  // データを更新
+  Object.assign(member, data)
+
+  // ストレージを更新
+  const storage = useStorage('data')
+  await storage.setItem('members', members)
+
+  return member
+}
