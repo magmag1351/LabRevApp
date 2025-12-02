@@ -57,9 +57,22 @@ function getRowItems(row: Row<LabMember>) {
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect() {
-        toast.add({
-          title: 'Member deleted',
-          description: 'The member has been deleted.'
+        $fetch(`/api/members?id=${row.original.id}`, {
+          method: 'DELETE'
+        })
+        .then(() => {
+          toast.add({
+            title: 'Member deleted',
+            description: 'The member has been deleted.'
+          })
+          refresh()
+        })
+        .catch(() => {
+          toast.add({
+            title: 'Error',
+            description: 'Failed to delete member.',
+            color: 'error'
+          })
         })
       }
     }

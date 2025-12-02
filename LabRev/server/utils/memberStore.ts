@@ -88,3 +88,22 @@ export const addMemberToStore = async (memberData: Omit<LabMember, 'no' | 'statu
 
   return newMember
 }
+
+/**
+ * IDを指定してメンバーを削除します。
+ */
+export const deleteMemberFromStore = async (id: number): Promise<boolean> => {
+  const members = await getMembersFromStore()
+  const index = members.findIndex(m => m.id === id)
+
+  if (index === -1) {
+    return false // 該当メンバーなし
+  }
+
+  members.splice(index, 1)
+
+  const storage = useStorage('data')
+  await storage.setItem('members', members)
+
+  return true
+}
