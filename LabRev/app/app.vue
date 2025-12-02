@@ -29,10 +29,13 @@ useSeoMeta({
   twitterImage: 'https://ui.nuxt.com/assets/templates/nuxt/dashboard-light.png',
   twitterCard: 'summary_large_image'
 })
+
+const showSplash = ref(true)
 </script>
 
 <template>
   <UApp>
+    <AppSplashScreen @finished="showSplash = false" />
     <NuxtLoadingIndicator />
 
     <NuxtLayout>
