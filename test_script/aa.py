@@ -9,10 +9,34 @@ from RPLCD.gpio import CharLCD
 # 設定エリア (環境に合わせて変更してください)
 # ==========================================
 
-# 1. PCのIPアドレスを確認して書き換えてください
-#    Windowsなら 'ipconfig' コマンドで確認できます
-SERVER_IP = "192.168.11.18" 
+import os
+import json
+
+# ==========================================
+# 設定エリア (環境に合わせて変更してください)
+# ==========================================
+
+# 設定ファイル (config.json) の読み込み
+# ファイルと同じディレクトリにある前提
+base_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(base_dir, "config.json")
+
+# デフォルト値
+SERVER_IP = "192.168.11.18"
 SERVER_PORT = "3000"
+
+if os.path.exists(config_path):
+    try:
+        with open(config_path, "r") as f:
+            config = json.load(f)
+            SERVER_IP = config.get("SERVER_IP", SERVER_IP)
+            SERVER_PORT = config.get("SERVER_PORT", SERVER_PORT)
+            print("Config loaded from {}".format(config_path))
+    except Exception as e:
+        print("Failed to load config.json: {}".format(e))
+else:
+    print("config.json not found. Using default IP.")
+
 SERVER_URL = "http://{}:{}/api/members/status".format(SERVER_IP, SERVER_PORT)
 
 # 2. カードUIDとサーバー内ID(1, 2)の対応表

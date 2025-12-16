@@ -1,9 +1,27 @@
 import requests
 import json
 
+import os
+
+# 設定ファイル (config.json) の読み込み
+base_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(base_dir, "config.json")
+
+# デフォルト値
+SERVER_IP = "192.168.11.18"
+SERVER_PORT = "3000"
+
+if os.path.exists(config_path):
+    try:
+        with open(config_path, "r") as f:
+            config = json.load(f)
+            SERVER_IP = config.get("SERVER_IP", SERVER_IP)
+            SERVER_PORT = config.get("SERVER_PORT", SERVER_PORT)
+    except Exception as e:
+        print(f"Failed to load config: {e}")
+
 # 1. 呼び出すNuxt APIのURL
-# (Nuxtが http://localhost:3000 で動いていると仮定)
-nuxt_api_url = "http://192.168.11.18:3000/api/members/status"
+nuxt_api_url = f"http://{SERVER_IP}:{SERVER_PORT}/api/members/status"
 
 # 2. 送信するデータ (更新したいメンバーのID)
 member_id_to_toggle = 584196026551  # <- ここをテストしたいIDに変更
