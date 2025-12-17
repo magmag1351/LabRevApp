@@ -1,5 +1,6 @@
 // server/utils/memberStore.ts
-import type { LabMember } from '~/types'
+import type { LabMember, LabMemberStatus } from '~/types'
+import { logAttendance } from './attendanceStore'
 
 // 'online' と 'offline' のみトグルする
 const toggleStatus = (status: LabMemberStatus): LabMemberStatus => {
@@ -61,6 +62,9 @@ export const updateMemberStatusInStore = async (id: number): Promise<LabMember |
   // ストレージを更新
   const storage = useStorage('data')
   await storage.setItem('members', members)
+
+  // ログ記録
+  await logAttendance(member.id, member.status)
 
   return member
 }
@@ -125,6 +129,11 @@ export const updateMemberInStore = async (id: number, data: Partial<Omit<LabMemb
   // ストレージを更新
   const storage = useStorage('data')
   await storage.setItem('members', members)
+
+  // ステータスが変更されていたらログ記録
+  if (data.status) {
+    await logAttendance(member.id, data.status)
+  }
 
   return member
 }

@@ -11,6 +11,13 @@ const links = [[{
     open.value = false
   }
 }, {
+  label: 'Monitor',
+  icon: 'i-lucide-monitor',
+  to: '/monitor',
+  onSelect: () => {
+    open.value = false
+  }
+}, {
   label: 'Book',
   icon: 'i-lucide-book',
   to: '/books',
