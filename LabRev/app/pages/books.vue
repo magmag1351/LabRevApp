@@ -21,11 +21,14 @@ const columnFilters = ref([{
 const columnVisibility = ref()
 // const rowSelection = ref({ 1: true })
 
-const { data, status } = await useFetch<Book[]>('/api/books', {
+const { data, status, refresh } = await useFetch<Book[]>('/api/books', {
   lazy: true
 })
 
-function getRowItems(row: Row<User>) {
+const isEditModalOpen = ref(false)
+const selectedBook = ref<Book | undefined>(undefined)
+
+function getRowItems(row: Row<Book>) {
   return [
     {
       type: 'label',
@@ -40,7 +43,11 @@ function getRowItems(row: Row<User>) {
     },
     {
       label: 'Edit book details',
-      icon: 'i-lucide-edit'
+      icon: 'i-lucide-edit',
+      onSelect() {
+        selectedBook.value = row.original
+        isEditModalOpen.value = true
+      }
     },
     {
       type: 'separator'
@@ -50,9 +57,22 @@ function getRowItems(row: Row<User>) {
       icon: 'i-lucide-trash',
       color: 'error',
       onSelect() {
-        toast.add({
-          title: 'Book deleted',
-          description: 'The customer has been deleted.'
+        $fetch(`/api/books?id=${row.original.id}`, {
+          method: 'DELETE'
+        })
+        .then(() => {
+          toast.add({
+            title: 'Book deleted',
+            description: 'The book has been deleted.'
+          })
+          refresh()
+        })
+        .catch(() => {
+          toast.add({
+            title: 'Error',
+            description: 'Failed to delete book.',
+            color: 'error'
+          })
         })
       }
     }
@@ -192,7 +212,8 @@ const pagination = ref({
         </template>
 
         <template #right>
-          <CustomersAddModal />
+          <BooksAddModal @success="refresh()" />
+          <BooksEditModal v-model:open="isEditModalOpen" :book="selectedBook" @success="refresh()" />
         </template>
       </UDashboardNavbar>
     </template>
@@ -208,7 +229,7 @@ const pagination = ref({
         />
 
         <div class="flex flex-wrap items-center gap-1.5">
-          <CustomersDeleteModal :count="table?.tableApi?.getFilteredSelectedRowModel().rows.length">
+          <BooksDeleteModal :count="table?.tableApi?.getFilteredSelectedRowModel().rows.length">
             <UButton
               v-if="table?.tableApi?.getFilteredSelectedRowModel().rows.length"
               label="Delete"
@@ -222,7 +243,7 @@ const pagination = ref({
                 </UKbd>
               </template>
             </UButton>
-          </CustomersDeleteModal>
+          </BooksDeleteModal>
 
           <USelect
             v-model="statusFilter"
