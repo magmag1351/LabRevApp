@@ -7,7 +7,7 @@ import type { Book } from '~/types'
  */
 export const getBooksFromStore = async (): Promise<Book[]> => {
   const storage = useStorage('data')
-  let books = await storage.getItem<Book[]>('books')
+  let books = await storage.getItem<Book[]>('books.json')
 
   if (!books) {
     // 初期データ
@@ -28,7 +28,7 @@ export const getBooksFromStore = async (): Promise<Book[]> => {
       renter: '田中次郎',
       rentDate: '2023-05-02',
     }]
-    await storage.setItem('books', initialBooks)
+    await storage.setItem('books.json', initialBooks)
     books = initialBooks
   }
   return books
@@ -50,7 +50,7 @@ export const updateBookInStore = async (id: number, data: Partial<Omit<Book, 'id
 
   // ストレージを更新
   const storage = useStorage('data')
-  await storage.setItem('books', books)
+  await storage.setItem('books.json', books)
 
   return book
 }
@@ -73,7 +73,7 @@ export const addBookToStore = async (bookData: Omit<Book, 'no'>): Promise<Book> 
   books.push(newBook)
 
   const storage = useStorage('data')
-  await storage.setItem('books', books)
+  await storage.setItem('books.json', books)
 
   return newBook
 }
@@ -92,7 +92,7 @@ export const deleteBookFromStore = async (id: number): Promise<boolean> => {
   books.splice(index, 1)
 
   const storage = useStorage('data')
-  await storage.setItem('books', books)
+  await storage.setItem('books.json', books)
 
   return true
 }

@@ -18,8 +18,8 @@ const getLogicalDate = (date: Date): string => {
 
 export const logAttendance = async (memberId: number, status: LabMemberStatus) => {
   const storage = useStorage('data')
-  // Store usage: 'attendance_records' -> DailyAttendanceRecord[]
-  const records = (await storage.getItem<DailyAttendanceRecord[]>('attendance_records')) || []
+  // Store usage: 'attendance_records.json' -> DailyAttendanceRecord[]
+  const records = (await storage.getItem<DailyAttendanceRecord[]>('attendance_records.json')) || []
 
   const now = new Date()
   const today = getLogicalDate(now)
@@ -44,12 +44,12 @@ export const logAttendance = async (memberId: number, status: LabMemberStatus) =
     record.lastExit = now.toISOString()
   }
 
-  await storage.setItem('attendance_records', records)
+  await storage.setItem('attendance_records.json', records)
 }
 
 export const getDailyAttendance = async (dateStr?: string) => {
   const storage = useStorage('data')
-  const records = (await storage.getItem<DailyAttendanceRecord[]>('attendance_records')) || []
+  const records = (await storage.getItem<DailyAttendanceRecord[]>('attendance_records.json')) || []
 
   const targetDate = dateStr || getLogicalDate(new Date())
 

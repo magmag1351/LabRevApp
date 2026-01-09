@@ -17,9 +17,12 @@ const toggleStatus = (status: LabMemberStatus): LabMemberStatus => {
  */
 export const getMembersFromStore = async (): Promise<LabMember[]> => {
   const storage = useStorage('data') // 'data' はファイルベースのストレージ (開発中に便利)
-  let members = await storage.getItem<LabMember[]>('members')
+  let members = await storage.getItem<LabMember[]>('members.json')
 
   if (!members) {
+    // try to fallback to old key if .json doesn't exist yet but file is there? 
+    // Actually Nitro with fs storage will just look for the file. 
+    // If I use 'members.json', it looks for 'members.json'.
     // 初期データ
     const initialMembers: LabMember[] = [
       {
@@ -39,7 +42,7 @@ export const getMembersFromStore = async (): Promise<LabMember[]> => {
         status: 'offline',
       }
     ]
-    await storage.setItem('members', initialMembers)
+    await storage.setItem('members.json', initialMembers)
     members = initialMembers
   }
   return members
@@ -61,7 +64,7 @@ export const updateMemberStatusInStore = async (id: number): Promise<LabMember |
 
   // ストレージを更新
   const storage = useStorage('data')
-  await storage.setItem('members', members)
+  await storage.setItem('members.json', members)
 
   // ログ記録
   await logAttendance(member.id, member.status)
@@ -88,7 +91,7 @@ export const addMemberToStore = async (memberData: Omit<LabMember, 'no' | 'statu
   members.push(newMember)
 
   const storage = useStorage('data')
-  await storage.setItem('members', members)
+  await storage.setItem('members.json', members)
 
   return newMember
 }
@@ -107,7 +110,7 @@ export const deleteMemberFromStore = async (id: number): Promise<boolean> => {
   members.splice(index, 1)
 
   const storage = useStorage('data')
-  await storage.setItem('members', members)
+  await storage.setItem('members.json', members)
 
   return true
 }
@@ -128,7 +131,7 @@ export const updateMemberInStore = async (id: number, data: Partial<Omit<LabMemb
 
   // ストレージを更新
   const storage = useStorage('data')
-  await storage.setItem('members', members)
+  await storage.setItem('members.json', members)
 
   // ステータスが変更されていたらログ記録
   if (data.status) {
