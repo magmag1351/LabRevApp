@@ -20,8 +20,8 @@ export interface Book {
   title: string
   category: string
   status: BookStatus
-  Renter: string
-  RentDate: string
+  renter: string
+  rentDate: string
 }
 
 // This was the old Member type, renaming to avoid conflict
